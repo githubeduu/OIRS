@@ -1,1 +1,270 @@
-/* You can add global styles to this file, and also import other style files */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* El cuerpo ocupa toda la altura de la ventana */
+}
+
+.navbar-nav .nav-link {
+  cursor: pointer;
+}
+
+header, nav.navbar {
+  background: linear-gradient(to right, #ffffff 8%, #b3e5fc); /* Degradado de blanco a celeste */
+  color: header-text-color;
+}
+
+header {
+  text-align: center;
+  padding: 0.5rem 1rem;
+  position: relative;
+  box-sizing: border-box;
+
+  img {
+    width: 150px;
+  }
+
+  @media (max-width: 768px) {
+    img {
+      width: 100px;
+    }
+  }
+}
+
+.navbar-nav .nav-link {
+  color: #000000; /* Letras negras */
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #555555; /* Negro más claro al pasar el mouse */
+}
+
+.btn-outline-danger {
+  border-color: #cccccc; /* Bordes grises */
+  color: #666666; /* Texto gris */
+
+  &:hover {
+    background-color: #cccccc; /* Fondo gris al pasar el mouse */
+    color: #ffffff; /* Texto blanco al pasar el mouse */
+  }
+}
+
+footer {
+  background: linear-gradient(to right, #ffffff 8%, #b3e5fc); /* Degradado */
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto; /* Empuja el footer al final */
+  color: #333;
+  font-size: 0.9rem;
+}
+
+main {
+  flex: 1; /* El contenido principal ocupa el espacio restante */
+  padding: 1rem; /* Opcional: Espaciado interno */
+}
+
+.btn-group {
+  margin-top: 10px;
+}
+
+.curved-dropdown {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+.btn-eliminar, .btn-editar {
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.btn-editar {
+  background-color: #007bff;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.btn-accion {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    flex-grow: 1;
+    margin-right: 5px; /* Espacio entre los botones */
+  }
+}
+
+.modal {
+  display: none; /* Oculta el modal inicialmente */
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro para el modal */
+
+  &.show {
+    display: block; /* Muestra el modal cuando showModal es true */
+  }
+}
+
+.modal-content {
+  padding: 20px; /* Añade un relleno interior al contenido del modal */
+}
+
+.modal-body {
+  max-height: calc(100vh - 200px); /* Ajusta la altura máxima del modal-body según el tamaño del modal */
+  overflow-y: auto; /* Añade scroll vertical si el contenido excede la altura máxima */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Espaciado entre grupos de formularios dentro del modal */
+}
+
+.form-control {
+  height: 45px; /* Ajusta la altura de los inputs */
+}
+
+.modal-header {
+  align-items: center; /* Centra los elementos del encabezado del modal verticalmente */
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px; /* Alinea el botón de cerrar a la derecha del encabezado */
+}
+
+.input-group-text {
+  background-color: #fff; /* Color de fondo del prefijo en el input de precio */
+}
+
+
+/* Estilos específicos para los form-floating */
+.form-floating>.form-control {
+  padding: 0.5rem 1rem;
+  height: auto;
+  line-height: 1.25;
+}
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label {
+  transform: scale(.85) translateY(-1.5rem);
+  opacity: .65;
+}
+
+.carousel-inner img {
+  width: 100%; /* Ajusta el ancho al contenedor */
+  max-height: 400px; /* Limita la altura */
+  object-fit: cover; /* Recorta la imagen manteniendo la proporción */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+.carousel {
+  max-width: 1200px; /* Ancho máximo del carrusel */
+  margin: 0 auto; /* Centra el carrusel */
+}
+
+@media (max-width: 768px) {
+  .carousel-inner img {
+    max-height: 300px; /* Ajusta la altura en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-inner img {
+    max-height: 200px; /* Ajusta la altura en móviles */
+  }
+}
+
+.carousel-indicators li {
+  background-color: #007bff; /* Color del indicador */
+  border: 1px solid #ffffff; /* Borde blanco */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%); /* Cambia el color de los íconos a blanco */
+}
+
+
+.informate {
+  padding: 2rem;
+  background-color: #f4f4f4; /* Color de fondo claro */
+  text-align: center;
+
+  h2 {
+    font-size: 1.8rem;
+    color: #0056b3;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #0056b3;
+    display: inline-block;
+    padding-bottom: 0.3rem;
+  }
+
+  .informate-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .informate-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    position: relative; /* Para contener el overlay */
+
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .informate-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+      font-size: 1rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem;
+      text-align: center;
+      transform: translateY(100%); /* Oculta el overlay inicialmente */
+      transition: transform 0.3s ease-in-out; /* Animación suave */
+    }
+
+    &:hover .informate-overlay {
+      transform: translateY(0); /* Muestra el overlay al pasar el mouse */
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 1rem;
+      color: #333;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin: 0 1rem 1rem;
+      color: #666;
+    }
+  }
+}
+
