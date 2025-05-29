@@ -1,7 +1,10 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-light">
     <div class="container-fluid">
-      <img src="assets/images/logo/logo.png" alt="Logo Biblioedu">
+      <div class="d-flex align-items-center">
+        <img src="assets/images/logo/logo.png" alt="Logo OIRS" class="logo-img me-2">
+        <img src="assets/images/logo/logo-gobierno.jpg" alt="Logo Gobierno de Chile" class="logo-img">
+      </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -12,10 +15,10 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Pacientes
+              Mis solicitudes
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" [routerLink]="['/pacientes']">Listado Pacientes</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/pacientes']">Listado solicitudes</a></li>
             </ul>
           </li>
         </ul>
@@ -34,15 +37,12 @@
         <ng-template #guest>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link cursor-pointer" (click)="login()">Iniciar Sesión</a>
+              <a class="nav-link cursor-pointer" (click)="login()">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+              </a>
             </li>
           </ul>
-        </ng-template>       
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="btn btn-primary" [routerLink]="['/citas']">Reserva de Hora</a>
-          </li>
-        </ul>        
+        </ng-template>            
       </div>
     </div>
   </nav>
@@ -81,36 +81,32 @@
     <h2>Infórmate</h2>
     <div class="informate-container">
       <div class="informate-card">
-        <img src="assets/images/informate/columna.png" alt="Traumatología">
+        <img src="assets/images/informate/1.jpg" alt="ChileParaTodas">
         <div class="informate-overlay">
-          <p>Traumatología: Cirugía de columna</p>
+          <p>Chile para Todas</p>
         </div>
-        <h3>Yo estoy entrenando normalmente y espero volver a practicar deporte</h3>
-        <p>Raúl Canales es un paciente que llegó a Clínica Santa María con diversas molestias a la espalda, las que le provocaron...</p>
+        <p>Chile para Todas significa que todos los servicios públicos, en todo el país, trabajan para responder a las necesidades de la diversidad de mujeres, dejando brechas y discriminaciones atrás. </p>
       </div>
       <div class="informate-card">
-        <img src="assets/images/informate/bronco.png" alt="Broncopulmonar">
+        <img src="assets/images/informate/2.jpg" alt="Pensiones">
         <div class="informate-overlay">
-          <p>Broncopulmonar</p>
+          <p>Subirán las Pensiones</p>
         </div>
-        <h3>Mycoplasma pneumoniae: El brote atípico de esta bacteria en Chile</h3>
-        <p>El último trimestre de 2024 ha llamado la atención de científicos y especialistas por el repentino brote de Mycoplasma...</p>
+        <p>La reforma de pensiones es ley y beneficiará a 2,8 millones de adultos mayores, aumentando sus pensiones.</p>
       </div>
       <div class="informate-card">
-        <img src="assets/images/informate/oftalmologia.png" alt="Oftalmología">
+        <img src="assets/images/informate/3.jpg" alt="Trenes">
         <div class="informate-overlay">
-          <p>Oftalmología</p>
+          <p>Trenes para Chile</p>
         </div>
-        <h3>Niños y pantallas: Consejos para una interacción más saludable</h3>
-        <p>La alta exposición de menores de edad a celulares, computadoras y otros dispositivos electrónicos ha puesto en alerta a los...</p>
+        <p>Buscamos unir a nuestro pais con una red ferroviaria moderna, limpia, segura y sostenible, junto a EFE. </p>
       </div>
       <div class="informate-card">
-        <img src="assets/images/informate/vih.png" alt="Infectología">
+        <img src="assets/images/informate/4.jpg" alt="ChileCuida">
         <div class="informate-overlay">
-          <p>Infectología</p>
+          <p>Chile Cuida</p>
         </div>
-        <h3>VIH: La importancia de la prevención</h3>
-        <p>Desde 1988, el 1 de diciembre se conmemora el Día Mundial del Sida. Esta fecha ha significado una reactivación de campañas para...</p>
+        <p>Red que se enmcuentra diseñada para abordar de manera integral las necesidades de cuidado en Chile. </p>
       </div>
     </div>
   </section>  
@@ -118,7 +114,7 @@
 
 <footer>
   <div class="container">
-    <p>&copy; 2025 Arkham Hospital. Todos los derechos reservados.</p>
+    <p>&copy; 2025 OIRS. Todos los derechos reservados.</p>
     <ul class="footer-links"></ul>
   </div>
 </footer>

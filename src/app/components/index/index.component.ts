@@ -4,7 +4,6 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from '../../services/usuario-service/usuario.service';
-import { catchError, of, tap } from 'rxjs';
 import { MsalService } from '@azure/msal-angular';
 
 
