@@ -1,0 +1,14 @@
+table {
+  font-size: 14px;
+}
+.btn {
+  min-width: 100px;
+}
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main {
+  flex: 1;
+}

@@ -1,33 +1,31 @@
-// index.component.ts
-import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from '../../services/usuario-service/usuario.service';
+import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-
-
+import { UserService } from '../../services/usuario-service/usuario.service';
+declare var bootstrap: any;
 
 @Component({
+  selector: 'app-solicitudes',
   standalone: true,
   imports: [CommonModule, RouterModule, HttpClientModule],
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  templateUrl: './solicitudes.component.html',
+ styleUrls: ['./solicitudes.component.css']
 })
-export class IndexComponent implements AfterViewInit {
+
+export class SolicitudesComponent {
   currentUser: any;
-  products: any[] = [];
 
-  constructor(
-    private renderer: Renderer2,
-    private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private readonly userService: UserService,
-    private readonly msalService: MsalService
-  ) {}
-
-  ngOnInit(): void {
+   constructor(
+      private renderer: Renderer2,
+      private el: ElementRef,
+      @Inject(PLATFORM_ID) private platformId: Object,
+      private readonly msalService: MsalService,
+      private readonly userService: UserService,
+    ) {}
+    
+    ngOnInit(): void {
     this.msalService.instance.handleRedirectPromise().then((res) => {  
       if (res && res.account) {
         // Configurar la cuenta activa después del login
@@ -95,21 +93,22 @@ export class IndexComponent implements AfterViewInit {
 }
 
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      let currentSlide: number = 0;
-      const slides = this.el.nativeElement.querySelectorAll('.carousel-item');
-      const totalSlides: number = slides.length;
+  solicitudes = [
+    { id: 1, titulo: 'Solicitud 1', descripcion: 'Descripción de la solicitud 1', fecha: '2025-06-01' },
+    { id: 2, titulo: 'Solicitud 2', descripcion: 'Descripción de la solicitud 2', fecha: '2025-06-02' },
+    { id: 3, titulo: 'Solicitud 3', descripcion: 'Descripción de la solicitud 3', fecha: '2025-06-03' }
+  ];
 
-      if (totalSlides > 0) {
-        this.renderer.addClass(slides[currentSlide], 'active');
+  solicitudSeleccionada: any = null;
 
-        setInterval(() => {
-          this.renderer.removeClass(slides[currentSlide], 'active');
-          currentSlide = (currentSlide + 1) % totalSlides;
-          this.renderer.addClass(slides[currentSlide], 'active');
-        }, 10000);
-      }
-    }
+  abrirModal(solicitud: any) {
+    this.solicitudSeleccionada = solicitud;
+    const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
+    modal.show();
   }
+
+  eliminarSolicitud(id: number) {
+    // lógica de eliminación
+  }
+
 }
