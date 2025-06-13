@@ -1,1 +1,202 @@
-<p>crear-solicitud works!</p>
+<header>
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center">
+        <img src="assets/images/logo/logo.png" alt="Logo OIRS" class="logo-img me-2">
+        <img src="assets/images/logo/logo-gobierno.jpg" alt="Logo Gobierno de Chile" class="logo-img">
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/index">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-2" routerLink="/crear-solicitudes">Crear Solicitud</a>
+          </li>
+          <li class="nav-item" *ngIf="currentUser">
+            <a class="nav-link" routerLink="/listado-solicitudes">Mis Solicitudes</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto" *ngIf="currentUser; else guest">
+          <li class="nav-item">
+            <span class="nav-link">Hola, {{ currentUser?.displayName || currentUser?.userPrincipalName }}</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link cursor-pointer" (click)="logout()">Cerrar Sesión</a>
+          </li>
+        </ul>
+        <ng-template #guest>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link cursor-pointer" (click)="login()">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
+              </a>
+            </li>
+          </ul>
+        </ng-template>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="container mt-5">
+  <h2 class="text-center fw-bold mb-4" style="color: #212529;">
+  <i class="bi bi-pencil-square me-2"></i> Crear Solicitud
+ </h2>
+  <ul class="nav nav-tabs mb-3" id="solicitudTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="ciudadano-tab" data-bs-toggle="tab" data-bs-target="#ciudadano" type="button" role="tab">
+        Ciudadano
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="grupo-tab" data-bs-toggle="tab" data-bs-target="#grupo" type="button" role="tab">
+        Grupo
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="solicitudTabsContent">
+
+    <!-- Formulario Ciudadano -->
+    <div class="tab-pane fade show active" id="ciudadano" role="tabpanel">
+      <form>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">RUT</label>
+            <input type="text" class="form-control" placeholder="Ingrese RUT">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tipo de Requerimiento</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+              <option>Información</option>
+              <option>Opinión</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" placeholder="Ingrese nombres">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" placeholder="Ingrese apellidos">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Región</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Comuna</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Género</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control" placeholder="Ingrese dirección">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-control" placeholder="Ingrese su correo">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Descripción de la Consulta</label>
+          <textarea class="form-control" rows="3" placeholder="Describa su requerimiento..."></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Adjuntar archivos (máx. 10)</label>
+          <input type="file" class="form-control" multiple>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+      </form>
+    </div>
+
+    <!-- Formulario Grupo -->
+    <div class="tab-pane fade" id="grupo" role="tabpanel">
+      <form>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">RUT del Grupo</label>
+            <input type="text" class="form-control" placeholder="Ingrese RUT del grupo">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nombre del Grupo</label>
+            <input type="text" class="form-control" placeholder="Ingrese nombre del grupo">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-4">
+            <label class="form-label">Región</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Comuna</label>
+            <select class="form-select">
+              <option selected>Seleccionar</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Tipo de Grupo</label>
+            <input type="text" class="form-control" placeholder="Ej. Junta de Vecinos">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-control" placeholder="Ingrese correo de contacto">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-control" rows="3" placeholder="Escriba su solicitud..."></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Adjuntar archivos (máx. 10)</label>
+          <input type="file" class="form-control" multiple>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div class="container">
+    <p>&copy; 2025 OIRS. Todos los derechos reservados.</p>
+    <ul class="footer-links"></ul>
+  </div>
+</footer>

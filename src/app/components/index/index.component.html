@@ -5,7 +5,6 @@
         <img src="assets/images/logo/logo.png" alt="Logo OIRS" class="logo-img me-2">
         <img src="assets/images/logo/logo-gobierno.jpg" alt="Logo Gobierno de Chile" class="logo-img">
       </div>
-
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent"
@@ -13,23 +12,17 @@
               aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" routerLink="/index">Inicio</a>
           </li>
-          <ng-container *ngIf="currentUser">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                 data-bs-toggle="dropdown" aria-expanded="false">
-                Mis solicitudes
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" [routerLink]="['/listado-solicitudes']">Listado solicitudes</a></li>
-              </ul>
-            </li>
-          </ng-container>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-2" routerLink="/crear-solicitudes">Crear Solicitud</a>
+          </li>
+          <li class="nav-item" *ngIf="currentUser">
+            <a class="nav-link" routerLink="/listado-solicitudes">Mis Solicitudes</a>
+          </li>
         </ul>
         <ul class="navbar-nav ms-auto" *ngIf="currentUser; else guest">
           <li class="nav-item">

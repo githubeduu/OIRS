@@ -17,7 +17,6 @@ import { MsalService } from '@azure/msal-angular';
 })
 export class IndexComponent implements AfterViewInit {
   currentUser: any;
-  products: any[] = [];
 
   constructor(
     private renderer: Renderer2,
