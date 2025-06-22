@@ -4,23 +4,42 @@ import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/usuario-service/usuario.service';
 import { MsalService } from '@azure/msal-angular';
+import { FormsModule } from '@angular/forms';
+import { SolicitudService } from '../../services/solicitud-service/solicitud.service';
 
 @Component({
   selector: 'app-crear-solicitud',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
   templateUrl: './crear-solicitud.component.html',
   styleUrl: './crear-solicitud.component.css'
 })
 export class CrearSolicitudComponent {
 currentUser: any;
 
+formCiudadano = {
+    rut: '',
+    nombre: '',
+    email: '',
+    region: '',
+    descripcion: ''
+  };
+
+  formGrupo = {
+    rut: '',
+    nombre: '',
+    email: '',
+    region: '',
+    descripcion: ''
+  };
+
 constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object,
     private readonly userService: UserService,
-    private readonly msalService: MsalService
+    private readonly msalService: MsalService,
+     private readonly solicitudService: SolicitudService
   ) {}
 
     ngOnInit(): void {
@@ -89,4 +108,61 @@ constructor(
     },
   });
 }
+
+
+
+enviarSolicitudCiudadano() {
+    const rutLimpio = this.formCiudadano.rut.replace(/\./g, '').replace('-', '');
+    const rutSolicitante = Number(rutLimpio.slice(0, -1));
+    const dvSolicitante = rutLimpio.slice(-1).toUpperCase();
+
+    const solicitud = {
+      fechaIngreso: new Date().toISOString().split('T')[0],
+      rutSolicitante,
+      dvSolicitante,
+      nombreSolicitante: this.formCiudadano.nombre,
+      emailSolicitante: this.formCiudadano.email,
+      region: this.formCiudadano.region,
+      descripcion: this.formCiudadano.descripcion
+    };
+
+    this.solicitudService.addSolicitud(solicitud).subscribe({
+      next: () => {
+        alert('Solicitud enviada correctamente (Ciudadano).');
+      },
+      error: (error) => {
+        console.error('Error al enviar solicitud Ciudadano:', error);
+        alert('Error al enviar la solicitud del ciudadano.');
+      }
+    });
+  }
+
+  enviarSolicitudGrupo() {
+    const rutLimpio = this.formGrupo.rut.replace(/\./g, '').replace('-', '');
+    const rutSolicitante = Number(rutLimpio.slice(0, -1));
+    const dvSolicitante = rutLimpio.slice(-1).toUpperCase();
+
+    const solicitud = {
+      fechaIngreso: new Date().toISOString().split('T')[0],
+      rutSolicitante,
+      dvSolicitante,
+      nombreSolicitante: this.formGrupo.nombre,
+      emailSolicitante: this.formGrupo.email,
+      region: this.formGrupo.region,
+      descripcion: this.formGrupo.descripcion
+    };
+
+    this.solicitudService.addSolicitud(solicitud).subscribe({
+      next: () => {
+        alert('Solicitud enviada correctamente (Grupo).');
+      },
+      error: (error) => {
+        console.error('Error al enviar solicitud Grupo:', error);
+        alert('Error al enviar la solicitud del grupo.');
+      }
+    });
+  }
+
+
+
 }

@@ -4,6 +4,7 @@ import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/usuario-service/usuario.service';
 import { MsalService } from '@azure/msal-angular';
+import { SolicitudService } from '../../services/solicitud-service/solicitud.service';
 
 @Component({
   selector: 'app-listado-solicitudes',
@@ -14,13 +15,15 @@ import { MsalService } from '@azure/msal-angular';
 })
 export class ListadoSolicitudesComponent {
 currentUser: any;
+solicitudes: any[] = [];
 
 constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object,
     private readonly userService: UserService,
-    private readonly msalService: MsalService
+    private readonly msalService: MsalService,
+    private readonly solicitudService: SolicitudService
   ) {}
 
     ngOnInit(): void {
@@ -38,6 +41,8 @@ constructor(
         // Fallback a UserService si es necesario
         this.currentUser = this.userService.getCurrentUser();
       }
+
+      this.cargarSolicitudes();
     }).catch((error) => {
       console.error('Error during MSAL redirect handling:', error);
     });
@@ -90,59 +95,33 @@ constructor(
   });
 }
 
-solicitudes = [
-  {
-    id: 1,
-    rut: '12.345.678-9',
-    nombre: 'María',
-    apellidos: 'López',
-    tipoRequerimiento: 'Solicitar información',
-    tipoConsulta: 'Solicitud general',
-    region: 'Metropolitana',
-    comuna: 'Santiago',
-    genero: 'Femenino',
-    telefono: '912345678',
-    direccion: 'Av. Siempre Viva 123',
-    email: 'maria.lopez@gmail.com',
-    descripcion: 'Necesito saber sobre subsidio habitacional.',
-    fecha: '2024-06-10',
-    estado: 'Pendiente'
-  },
-  {
-    id: 2,
-    rut: '11.223.344-5',
-    nombre: 'Juan',
-    apellidos: 'Pérez',
-    tipoRequerimiento: 'Expresar opinión',
-    tipoConsulta: 'Sugerencia',
-    region: 'Valparaíso',
-    comuna: 'Viña del Mar',
-    genero: 'Masculino',
-    telefono: '922334455',
-    direccion: 'Calle Los Pinos 456',
-    email: 'juan.perez@gmail.com',
-    descripcion: 'Sugerencia para mejorar atención en oficinas.',
-    fecha: '2024-06-12',
-    estado: 'Aprobada'
-  },
-  {
-    id: 3,
-    rut: '16.789.432-1',
-    nombre: 'Ana',
-    apellidos: 'Rodríguez',
-    tipoRequerimiento: 'Solicitar información',
-    tipoConsulta: 'Denuncia',
-    region: 'Biobío',
-    comuna: 'Concepción',
-    genero: 'Femenino',
-    telefono: '933112233',
-    direccion: 'Pasaje Lirios 789',
-    email: 'ana.rodriguez@gmail.com',
-    descripcion: 'Denuncia por falta de respuesta en solicitud previa.',
-    fecha: '2024-06-13',
-    estado: 'Rechazada'
+  cargarSolicitudes() {
+    this.solicitudService.getSolicitudes().subscribe({
+      next: (data) => {
+        this.solicitudes = data.map((s, index) => ({
+          id: index + 1,
+          rut: `${s.rutSolicitante}-${s.dvSolicitante}`,
+          nombre: s.nombreSolicitante || '—',
+          apellidos: s.apellidos || '—',
+          tipoRequerimiento: s.tipoRequerimiento || '—',
+          tipoConsulta: s.tipoConsulta || '—',
+          region: s.region || '—',
+          comuna: s.comuna || '—',
+          genero: s.genero || '—',
+          telefono: s.telefono || '—',
+          direccion: s.direccion || '—',
+          email: s.emailSolicitante || '—',
+          descripcion: s.descripcion || '—',
+          fecha: s.fechaIngreso || '—',
+          estado: s.estado || 'Pendiente'
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar solicitudes:', err);
+        alert('No se pudieron cargar las solicitudes');
+      }
+    });
   }
-];
 
 
 }
