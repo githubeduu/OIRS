@@ -1,32 +1,32 @@
-// index.component.ts
-import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/usuario-service/usuario.service';
 import { MsalService } from '@azure/msal-angular';
-
-
+import { SolicitudService } from '../../services/solicitud-service/solicitud.service';
 
 @Component({
+  selector: 'app-listado-solicitudes',
   standalone: true,
   imports: [CommonModule, RouterModule, HttpClientModule],
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  templateUrl: './listado-solicitudes.component.html',
+  styleUrl: './listado-solicitudes.component.css'
 })
-export class IndexComponent implements AfterViewInit {
-  currentUser: any;
+export class ListadoSolicitudesComponent {
+currentUser: any;
+solicitudes: any[] = [];
 
-  constructor(
+constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object,
     private readonly userService: UserService,
-    private readonly msalService: MsalService
+    private readonly msalService: MsalService,
+    private readonly solicitudService: SolicitudService
   ) {}
 
-  ngOnInit(): void {
+    ngOnInit(): void {
     this.msalService.instance.handleRedirectPromise().then((res) => {  
       if (res && res.account) {
         // Configurar la cuenta activa después del login
@@ -41,6 +41,8 @@ export class IndexComponent implements AfterViewInit {
         // Fallback a UserService si es necesario
         this.currentUser = this.userService.getCurrentUser();
       }
+
+      this.cargarSolicitudes();
     }).catch((error) => {
       console.error('Error during MSAL redirect handling:', error);
     });
@@ -93,22 +95,33 @@ export class IndexComponent implements AfterViewInit {
   });
 }
 
-
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      let currentSlide: number = 0;
-      const slides = this.el.nativeElement.querySelectorAll('.carousel-item');
-      const totalSlides: number = slides.length;
-
-      if (totalSlides > 0) {
-        this.renderer.addClass(slides[currentSlide], 'active');
-
-        setInterval(() => {
-          this.renderer.removeClass(slides[currentSlide], 'active');
-          currentSlide = (currentSlide + 1) % totalSlides;
-          this.renderer.addClass(slides[currentSlide], 'active');
-        }, 10000);
+  cargarSolicitudes() {
+    this.solicitudService.getSolicitudes().subscribe({
+      next: (data) => {
+        this.solicitudes = data.map((s, index) => ({
+          id: index + 1,
+          rut: `${s.rutSolicitante}-${s.dvSolicitante}`,
+          nombre: s.nombreSolicitante || '—',
+          apellidos: s.apellidos || '—',
+          tipoRequerimiento: s.tipoRequerimiento || '—',
+          tipoConsulta: s.tipoConsulta || '—',
+          region: s.region || '—',
+          comuna: s.comuna || '—',
+          genero: s.genero || '—',
+          telefono: s.telefono || '—',
+          direccion: s.direccion || '—',
+          email: s.emailSolicitante || '—',
+          descripcion: s.descripcion || '—',
+          fecha: s.fechaIngreso || '—',
+          estado: s.estado || 'Pendiente'
+        }));
+      },
+      error: (err) => {
+        console.error('Error al cargar solicitudes:', err);
+        alert('No se pudieron cargar las solicitudes');
       }
-    }
+    });
   }
+
+
 }

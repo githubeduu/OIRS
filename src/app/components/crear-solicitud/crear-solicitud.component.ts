@@ -1,32 +1,48 @@
-// index.component.ts
-import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/usuario-service/usuario.service';
 import { MsalService } from '@azure/msal-angular';
-
-
+import { FormsModule } from '@angular/forms';
+import { SolicitudService } from '../../services/solicitud-service/solicitud.service';
 
 @Component({
+  selector: 'app-crear-solicitud',
   standalone: true,
-  imports: [CommonModule, RouterModule, HttpClientModule],
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  imports: [CommonModule, RouterModule, HttpClientModule, FormsModule],
+  templateUrl: './crear-solicitud.component.html',
+  styleUrl: './crear-solicitud.component.css'
 })
-export class IndexComponent implements AfterViewInit {
-  currentUser: any;
+export class CrearSolicitudComponent {
+currentUser: any;
 
-  constructor(
+formCiudadano = {
+    rut: '',
+    nombre: '',
+    email: '',
+    region: '',
+    descripcion: ''
+  };
+
+  formGrupo = {
+    rut: '',
+    nombre: '',
+    email: '',
+    region: '',
+    descripcion: ''
+  };
+
+constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object,
     private readonly userService: UserService,
-    private readonly msalService: MsalService
+    private readonly msalService: MsalService,
+     private readonly solicitudService: SolicitudService
   ) {}
 
-  ngOnInit(): void {
+    ngOnInit(): void {
     this.msalService.instance.handleRedirectPromise().then((res) => {  
       if (res && res.account) {
         // Configurar la cuenta activa después del login
@@ -94,21 +110,59 @@ export class IndexComponent implements AfterViewInit {
 }
 
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      let currentSlide: number = 0;
-      const slides = this.el.nativeElement.querySelectorAll('.carousel-item');
-      const totalSlides: number = slides.length;
 
-      if (totalSlides > 0) {
-        this.renderer.addClass(slides[currentSlide], 'active');
+enviarSolicitudCiudadano() {
+    const rutLimpio = this.formCiudadano.rut.replace(/\./g, '').replace('-', '');
+    const rutSolicitante = Number(rutLimpio.slice(0, -1));
+    const dvSolicitante = rutLimpio.slice(-1).toUpperCase();
 
-        setInterval(() => {
-          this.renderer.removeClass(slides[currentSlide], 'active');
-          currentSlide = (currentSlide + 1) % totalSlides;
-          this.renderer.addClass(slides[currentSlide], 'active');
-        }, 10000);
+    const solicitud = {
+      fechaIngreso: new Date().toISOString().split('T')[0],
+      rutSolicitante,
+      dvSolicitante,
+      nombreSolicitante: this.formCiudadano.nombre,
+      emailSolicitante: this.formCiudadano.email,
+      region: this.formCiudadano.region,
+      descripcion: this.formCiudadano.descripcion
+    };
+
+    this.solicitudService.addSolicitud(solicitud).subscribe({
+      next: () => {
+        alert('Solicitud enviada correctamente (Ciudadano).');
+      },
+      error: (error) => {
+        console.error('Error al enviar solicitud Ciudadano:', error);
+        alert('Error al enviar la solicitud del ciudadano.');
       }
-    }
+    });
   }
+
+  enviarSolicitudGrupo() {
+    const rutLimpio = this.formGrupo.rut.replace(/\./g, '').replace('-', '');
+    const rutSolicitante = Number(rutLimpio.slice(0, -1));
+    const dvSolicitante = rutLimpio.slice(-1).toUpperCase();
+
+    const solicitud = {
+      fechaIngreso: new Date().toISOString().split('T')[0],
+      rutSolicitante,
+      dvSolicitante,
+      nombreSolicitante: this.formGrupo.nombre,
+      emailSolicitante: this.formGrupo.email,
+      region: this.formGrupo.region,
+      descripcion: this.formGrupo.descripcion
+    };
+
+    this.solicitudService.addSolicitud(solicitud).subscribe({
+      next: () => {
+        alert('Solicitud enviada correctamente (Grupo).');
+      },
+      error: (error) => {
+        console.error('Error al enviar solicitud Grupo:', error);
+        alert('Error al enviar la solicitud del grupo.');
+      }
+    });
+  }
+
+
+
 }

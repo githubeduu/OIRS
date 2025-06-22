@@ -1,0 +1,25 @@
+.logo-img {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px; /* Prueba también 12px o 50% si lo quieres circular */
+}
+
+form .form-label {
+  font-weight: 500;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  margin-top: auto;
+}
+
