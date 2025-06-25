@@ -16,6 +16,8 @@ import { SolicitudService } from '../../services/solicitud-service/solicitud.ser
 export class ListadoSolicitudesComponent {
 currentUser: any;
 solicitudes: any[] = [];
+solicitudSeleccionada: any = null;
+
 
 constructor(
     private renderer: Renderer2,
@@ -123,5 +125,28 @@ constructor(
     });
   }
 
+
+
+ abrirModalActualizar(solicitud: any) {
+  this.solicitudSeleccionada = solicitud;
+}
+
+abrirModalEliminar(solicitud: any) {
+  this.solicitudSeleccionada = solicitud;
+}
+
+actualizarSolicitud() {
+  // Aquí puedes integrar un servicio para actualizar en el backend
+  alert(`Solicitud ${this.solicitudSeleccionada?.id} actualizada (ficticio)`);
+}
+
+eliminarSolicitud() {
+  // Aquí puedes integrar un servicio para eliminar en el backend
+  alert(`Solicitud ${this.solicitudSeleccionada?.id} eliminada (ficticio)`);
+
+  // Opcional: remueve del array para reflejarlo en la tabla
+  this.solicitudes = this.solicitudes.filter(s => s.id !== this.solicitudSeleccionada?.id);
+}
+ 
 
 }

@@ -97,12 +97,17 @@
               <button class="btn btn-outline-secondary btn-sm rounded-circle me-1" title="Ver">
                 <i class="bi bi-eye"></i>
               </button>
-              <button class="btn btn-outline-secondary btn-sm rounded-circle me-1" title="Editar">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-outline-secondary btn-sm rounded-circle" title="Eliminar">
-                <i class="bi bi-trash"></i>
-              </button>
+             <button class="btn btn-outline-secondary btn-sm rounded-circle me-1" title="Editar"
+                    data-bs-toggle="modal" data-bs-target="#modalActualizar"
+                    (click)="abrirModalActualizar(s)">
+              <i class="bi bi-pencil"></i>
+            </button>
+
+            <button class="btn btn-outline-secondary btn-sm rounded-circle" title="Eliminar"
+                    data-bs-toggle="modal" data-bs-target="#modalEliminar"
+                    (click)="abrirModalEliminar(s)">
+              <i class="bi bi-trash"></i>
+            </button>
             </td>
           </tr>
         </tbody>
@@ -111,9 +116,52 @@
   </div>
 </main>
 
+
+
 <footer>
   <div class="container">
     <p>&copy; 2025 OIRS. Todos los derechos reservados.</p>
     <ul class="footer-links"></ul>
   </div>
 </footer>
+
+
+<div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="modalActualizarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalActualizarLabel">Actualizar Solicitud</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Aquí irían los campos del formulario de actualización -->
+        <p><strong>Nombre:</strong> {{ solicitudSeleccionada?.nombre }}</p>
+        <p><strong>Correo:</strong> {{ solicitudSeleccionada?.email }}</p>
+        <!-- Agrega aquí más campos según lo que deseas actualizar -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarSolicitud()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalEliminarLabel">Eliminar Solicitud</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro que deseas eliminar la solicitud de <strong>{{ solicitudSeleccionada?.nombre }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminarSolicitud()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
